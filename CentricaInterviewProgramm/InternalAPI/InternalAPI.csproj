@@ -5,11 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="DataAccess\IDataAccess\" />
-    <Folder Include="DataAccess\DataAccessClasses\" />
-    <Folder Include="DataManagement\IDataManagement\" />
-    <Folder Include="DataManagement\DataManagementClasses\" />
-    <Folder Include="Models\" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
   </ItemGroup>
 
 
