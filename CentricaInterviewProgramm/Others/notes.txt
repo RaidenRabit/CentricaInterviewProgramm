@@ -1,0 +1,14 @@
+1) can a store have multiple salespersons?
+2) "During transition periods, if there is a shortage on salespersons, the same salesperson can be the primary salesperson
+for multiple districts." - what would be the threshold for the number of salespersons required in order to allow for 1 salesperson to become the primary actor for multiple districts?
+3) when a salespersons is removed from the district, what should happen to that salesperson's stores?
+4) can the primary/secondary status of a salesperson be determined by the number of stores they are active in?
+
+5) should I hand in the task somehow before the interview or would it be better to keep it as a surprise untill then?
+
+
+Assumptions:
+- the user is the absolute CEO of sales over the whole application, total control and represents 100% of the companie's desires.
+- a store can have multiple salespersons
+- the relationship type between district and salesperson cannot be determined based on the number of stores the are active in
+- 
