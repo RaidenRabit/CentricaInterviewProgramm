@@ -1,40 +1,41 @@
 ﻿using System;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 
 namespace InternalAPI.DataAccess.DataAccessClasses
 {
     public class DbConnection
     {
-        private static DbConnection instance;
-        private SqlConnection con = null;
+        private static DbConnection _instance;
+        private SqlConnection _con = null;
+        private string _connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=CentricaProgram;Integrated Security=True";
 
         public static DbConnection GetInstance()
         {
-            if (instance == null)
+            if (_instance == null)
             {
-                instance = new DbConnection();
+                _instance = new DbConnection();
             }
-            return instance;
+            return _instance;
         }
 
         private DbConnection()
         {
-           con = new SqlConnection(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=CentricaProgram;Integrated Security=True");
-           con.Open();
+           _con = new SqlConnection(_connectionString);
+           _con.Open();
         }
 
         #region Connection
         public SqlConnection GetConnection()
         {
-            return con;
+            return _con;
         }
 
         public bool CloseConnection()
         {
             try
             {
-                con.Close();
-                instance = null;
+                _con.Close();
+                _instance = null;
                 return true;
             }
             catch (Exception)

@@ -1,12 +1,14 @@
+USE master
+GO
+IF DB_ID('CentricaProgram') IS NOT NULL
+ALTER DATABASE CentricaProgram SET SINGLE_USER WITH ROLLBACK IMMEDIATE
+DROP DATABASE IF EXISTS CentricaProgram;
+GO
+
+CREATE DATABASE CentricaProgram;
+GO
+
 USE CentricaProgram;
-
-DROP TABLE SalesPersonToStore;
-DROP TABLE Store;
-DROP TABLE SalesPersonsToDistrict;
-DROP TABLE RelationType;
-DROP TABLE District;
-DROP TABLE SalesPersons;
-
 
 CREATE TABLE SalesPersons (
 Id int IDENTITY(1,1) PRIMARY KEY,
