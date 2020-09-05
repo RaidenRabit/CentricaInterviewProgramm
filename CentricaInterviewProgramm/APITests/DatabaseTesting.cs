@@ -10,7 +10,7 @@ namespace APITests
     {
         public static void ResetDatabase()
         {
-            string connection = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=CentricaProgram;Integrated Security=true;User Id=sa;Password=Password12!";
+            string connection = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=CentricaProgram;Integrated Security=SSPI";
             string insertScriptPath = "../../.. /../../../Others/InsertDataScript.sql";
             string createScriptPath = "../../../../Others/CreateTablesScript.sql";
             string insertScript = File.ReadAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, insertScriptPath));
