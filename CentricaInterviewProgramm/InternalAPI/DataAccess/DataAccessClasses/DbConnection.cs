@@ -7,7 +7,7 @@ namespace InternalAPI.DataAccess.DataAccessClasses
     {
         private static DbConnection _instance;
         private SqlConnection _con = null;
-        private string _connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=CentricaProgram;Integrated Security=SSPI";
+        private string _connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=CentricaProgram;Integrated Security=FALSE; User ID=sa; password=Password12!";
 
         public static DbConnection GetInstance()
         {
