@@ -21,7 +21,7 @@ namespace APITests
             var response = await _internalClient.GetAsync("/District");
             int districtTotalCount = JsonConvert.DeserializeObject<int>(await response.Content.ReadAsStringAsync());
             //assert
-            Assert.Equals(districtTotalCount, 3);
+            Assert.AreEqual(districtTotalCount, 3);
         }
     }
 }
