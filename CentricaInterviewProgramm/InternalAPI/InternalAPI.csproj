@@ -1,15 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="DataAccess\IDataAccess\" />
-    <Folder Include="DataAccess\DataAccessClasses\" />
-    <Folder Include="DataManagement\IDataManagement\" />
-    <Folder Include="DataManagement\DataManagementClasses\" />
-    <Folder Include="Models\" />
+    <PackageReference Include="Microsoft.SqlServer.SqlManagementObjects" Version="161.41011.9" />
   </ItemGroup>
 
 
