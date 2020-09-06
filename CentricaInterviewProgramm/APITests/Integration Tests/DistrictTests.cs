@@ -36,6 +36,7 @@ namespace APITests
             var districts = JsonConvert.DeserializeObject<List<District>>(jsonString);
             //assert
             Assert.AreEqual(3, districts.Count, "Actual count:" + districts.Count);
+            Assert.AreEqual(0, districts[2].Stores.Count, "district " + districts[2].DistrictId + " stores were NOT null");
         }
     }
 }

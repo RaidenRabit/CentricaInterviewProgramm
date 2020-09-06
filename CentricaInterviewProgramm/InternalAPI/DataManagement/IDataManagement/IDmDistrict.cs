@@ -8,5 +8,6 @@ namespace InternalAPI.DataManagement.IDataManagement
         int CreateDistrict(string name);
         bool DeleteDistrict(int districtId);
         List<District> GetAllDistricts();
+        int GetDistrictsCount();
     }
 }
