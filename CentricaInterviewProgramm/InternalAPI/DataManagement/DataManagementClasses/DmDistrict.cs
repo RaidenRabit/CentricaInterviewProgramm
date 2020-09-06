@@ -28,5 +28,10 @@ namespace InternalAPI.DataManagement.DataManagementClasses
         {
             return _dbDistrict.GetAllDistricts();
         }
+
+        public int GetDistrictsCount()
+        {
+            return _dbDistrict.GetDistrictsCount();
+        }
     }
 }

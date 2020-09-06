@@ -22,14 +22,16 @@ namespace InternalAPI.Controllers
         [Route("GetDistrictCount")]
         public int GetDistrictCount()
         {
-            return _dmDistrict.GetAllDistricts().Count();
+            return _dmDistrict.GetDistrictsCount();
         }
 
         [HttpGet]
         [Route("GetAllDistricts")]
         public List<District> GetAllDistricts()
         {
-            return _dmDistrict.GetAllDistricts();
+            var result = _dmDistrict.GetAllDistricts();
+            return result;
         }
+
     }
 }

@@ -11,35 +11,35 @@ GO
 USE CentricaProgram;
 
 CREATE TABLE SalesPersons (
-Id int IDENTITY(1,1) PRIMARY KEY,
-Name varchar(20)
+SalesPersonId int IDENTITY(1,1) PRIMARY KEY,
+SalesPersonName varchar(20)
 );
 
 CREATE TABLE District(
-Id int IDENTITY(1,1) PRIMARY KEY,
-Name varchar(20)
+DistrictId int IDENTITY(1,1) PRIMARY KEY,
+DistrictName varchar(20)
 );
 
 CREATE TABLE RelationType(
-Id int IDENTITY(1,1) PRIMARY KEY,
-Name varchar(20)
+RelationTypeId int IDENTITY(1,1) PRIMARY KEY,
+RelationTypeName varchar(20)
 );
 
 CREATE TABLE SalesPersonsToDistrict(
-Id int IDENTITY(1,1) PRIMARY KEY,
-salesPersonId int REFERENCES SalesPersons (Id),
-districtId int FOREIGN KEY REFERENCES District (Id),
-relationTypeId int FOREIGN KEY REFERENCES RelationType (Id)
+SalesPersonToDistrictId int IDENTITY(1,1) PRIMARY KEY,
+SalesPersonId int REFERENCES SalesPersons (SalesPersonId),
+DistrictId int FOREIGN KEY REFERENCES District (DistrictId),
+RelationTypeId int FOREIGN KEY REFERENCES RelationType (RelationTypeId)
 );
 
 CREATE TABLE Store(
-Id int IDENTITY(1,1) PRIMARY KEY,
-DistrictId int FOREIGN KEY REFERENCES District (Id),
-Name varchar(20)
+StoreId int IDENTITY(1,1) PRIMARY KEY,
+DistrictId int FOREIGN KEY REFERENCES District (DistrictId),
+StoreName varchar(20)
 );
 
 CREATE TABLE SalesPersonToStore(
-Id int IDENTITY(1,1) PRIMARY KEY,
-SalesPersonId int FOREIGN KEY REFERENCES SalesPersons (Id),
-StoreId int FOREIGN KEY REFERENCES Store (Id)
+SalesPersonToStoreId int IDENTITY(1,1) PRIMARY KEY,
+SalesPersonId int FOREIGN KEY REFERENCES SalesPersons (SalesPersonId),
+StoreId int FOREIGN KEY REFERENCES Store (StoreId)
 );
