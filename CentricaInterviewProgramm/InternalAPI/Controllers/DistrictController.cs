@@ -1,5 +1,8 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using InternalAPI.DataManagement.IDataManagement;
+using InternalAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InternalAPI.Controllers
@@ -16,9 +19,17 @@ namespace InternalAPI.Controllers
         }
 
         [HttpGet]
-        public int Get()
+        [Route("GetDistrictCount")]
+        public int GetDistrictCount()
         {
             return _dmDistrict.GetAllDistricts().Count();
+        }
+
+        [HttpGet]
+        [Route("GetAllDistricts")]
+        public List<District> GetAllDistricts()
+        {
+            return _dmDistrict.GetAllDistricts();
         }
     }
 }

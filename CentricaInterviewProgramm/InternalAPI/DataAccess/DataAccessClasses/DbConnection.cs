@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
 
 namespace InternalAPI.DataAccess.DataAccessClasses
@@ -20,8 +21,8 @@ namespace InternalAPI.DataAccess.DataAccessClasses
 
         private DbConnection()
         {
-           _con = new SqlConnection(_connectionString);
-           _con.Open();
+            _con = new SqlConnection(_connectionString);
+            _con.Open();
         }
 
         #region Connection

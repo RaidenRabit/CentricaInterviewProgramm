@@ -24,6 +24,7 @@ namespace InternalAPI.DataAccess.DataAccessClasses
                 using (SqlDataReader reader = cmd.ExecuteReader())
                 {
                     reader.Read();
+                    con.CloseConnection();
                     return reader.GetInt32(0);
                 }
             }
