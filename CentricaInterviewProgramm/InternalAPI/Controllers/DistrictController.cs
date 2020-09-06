@@ -12,10 +12,12 @@ namespace InternalAPI.Controllers
     public class DistrictController : ControllerBase
     {
         private IDmDistrict _dmDistrict;
+        private IDmSalesPersonToDistrict _dmSalesPersonToDistrict;
 
-        public DistrictController(IDmDistrict dmDistrict)
+        public DistrictController(IDmDistrict dmDistrict, IDmSalesPersonToDistrict dmSalesPersonToDistrict)
         {
             _dmDistrict = dmDistrict;
+            _dmSalesPersonToDistrict = dmSalesPersonToDistrict;
         }
 
         [HttpGet]
@@ -31,6 +33,28 @@ namespace InternalAPI.Controllers
         {
             var result = _dmDistrict.GetAllDistricts();
             return result;
+        }
+
+        [HttpPost]
+        [Route("AddSalesPersonToDistrict")]
+        public bool AddSalesPersonToDistrict([FromBody] AddSalesPersonToDistrictModel asptd)
+        {
+            if (asptd.DistrictId == 0)
+            {
+                return false;
+            }    
+
+            if (asptd.SalesPersonId == 0)
+            {
+                return false;
+            }
+
+            if (asptd.DistrictId == 0)
+            {
+                return false;
+            }
+
+            return _dmSalesPersonToDistrict.CreateSalesPersonToDistrict(asptd);
         }
 
     }
