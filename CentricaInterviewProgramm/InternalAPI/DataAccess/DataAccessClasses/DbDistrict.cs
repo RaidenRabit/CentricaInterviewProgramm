@@ -9,46 +9,25 @@ namespace InternalAPI.DataAccess.DataAccessClasses
 {
     public class DbDistrict : IDbDistrict
     {
-        private DbConnection con = null;
+        private DbConnection _con = null;
         public DbDistrict()
         {
-            con = DbConnection.GetInstance();
-        }
-
-        public int CreateDistrict(string name)
-        {
-            string stmt = "INSERT INTO District (Name) OUTPUT INSERTED.Id VALUES(@0);";
-
-            using (var cmd = new SqlCommand(stmt, con.GetConnection()))
-            {
-                cmd.Parameters.AddWithValue("@0", name);
-                using (var reader = cmd.ExecuteReader())
-                {
-                    reader.Read();
-                    return reader.GetInt32(0);
-                }
-            }
-        }
-
-        public int DeleteDistrict(int districtId)
-        {
-            string stmt = "DELETE FROM District WHERE Id = @0; ";
-            using (var cmd = new SqlCommand(stmt, con.GetConnection()))
-            {
-                cmd.Parameters.AddWithValue("@0", districtId);
-                return cmd.ExecuteNonQuery();
-            }
+            _con = DbConnection.GetInstance();
         }
 
         public int GetDistrictsCount()
         {
             string stmt = @"SELECT COUNT(*) FROM District";
-            using (var cmd = new SqlCommand(stmt, con.GetConnection()))
+            using (var cmd = new SqlCommand(stmt, _con.GetConnection()))
             {
                 using (var reader = cmd.ExecuteReader())
                 {
-                    reader.Read();
-                    return reader.GetInt32(0);
+                    if (reader.HasRows)
+                    {
+                        reader.Read();
+                        return reader.GetInt32(0);
+                    }
+                    return 0;
                 }
             }
         }
@@ -62,7 +41,7 @@ namespace InternalAPI.DataAccess.DataAccessClasses
                             FULL JOIN SalesPersons sp ON sp.SalesPersonId = sptd.SalesPersonId
                             FULL JOIN SalesPersonToStore spts on spts.SalesPersonId = sp.SalesPersonId
                             WHERE d.DistrictId IS NOT NULL";
-            using (var cmd = new SqlCommand(stmt, con.GetConnection()))
+            using (var cmd = new SqlCommand(stmt, _con.GetConnection()))
             {
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -70,6 +49,31 @@ namespace InternalAPI.DataAccess.DataAccessClasses
                 }
             }
         }
+
+        public District GetDistrictDetails(int districtId)
+        {
+            string stmt = @"SELECT * FROM District d 
+                            FULL JOIN Store s ON d.DistrictId = s.DistrictId 
+                            FULL JOIN SalesPersonsToDistrict sptd ON sptd.DistrictId = d.DistrictId
+                            FULL JOIN RelationType rt ON rt.RelationTypeId = sptd.RelationTypeId
+                            FULL JOIN SalesPersons sp ON sp.SalesPersonId = sptd.SalesPersonId
+                            FULL JOIN SalesPersonToStore spts on spts.SalesPersonId = sp.SalesPersonId
+                            WHERE d.DistrictId = @0";
+            using (var cmd = new SqlCommand(stmt, _con.GetConnection()))
+            {
+                cmd.Parameters.AddWithValue("@0", districtId);
+                using (var reader = cmd.ExecuteReader())
+                {
+                    var districts = MapDistrictRelatedObjects(reader);
+                    if (districts.Any())
+                    {
+                        return districts.FirstOrDefault();
+                    }
+                    return null;
+                }
+            }
+        }
+
 
         private List<District> MapDistrictRelatedObjects(SqlDataReader reader)
         {

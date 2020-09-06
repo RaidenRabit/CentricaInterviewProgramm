@@ -14,16 +14,6 @@ namespace InternalAPI.DataManagement.DataManagementClasses
             _dbDistrict = dbDistrict;
         }
 
-        public int CreateDistrict(string name)
-        {
-            return _dbDistrict.CreateDistrict(name);
-        }
-
-        public bool DeleteDistrict(int districtId)
-        {
-            return _dbDistrict.DeleteDistrict(districtId) > 0;
-        }
-
         public List<District> GetAllDistricts()
         {
             return _dbDistrict.GetAllDistricts();

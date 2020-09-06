@@ -6,9 +6,8 @@ namespace InternalAPI.DataAccess.IDataAccess
 {
     public interface IDbDistrict
     {
-        int CreateDistrict(string name);
-        int DeleteDistrict(int districtId);
         List<District> GetAllDistricts();
         int GetDistrictsCount();
+        District GetDistrictDetails(int districtId);
     }
 }

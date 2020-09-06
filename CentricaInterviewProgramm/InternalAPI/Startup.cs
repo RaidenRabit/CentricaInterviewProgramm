@@ -24,8 +24,12 @@ namespace InternalAPI
         {
             services.AddControllers();
             services.AddTransient<IDbDistrict, DbDistrict>();
+            services.AddTransient<IDbRelationType, DbRelationType>();
+            services.AddTransient<IDbSalesPerson, DbSalesPerson>();
+            services.AddTransient<IDbSalesPersonToDistrict, DbSalesPersonToDistrict>();
 
             services.AddTransient<IDmDistrict, DmDistrict>();
+            services.AddTransient<IDmSalesPersonToDistrict, DmSalesPersonToDistrict>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
