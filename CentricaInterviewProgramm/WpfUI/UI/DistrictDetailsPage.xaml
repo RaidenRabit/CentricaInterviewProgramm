@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:WpfUI.UI"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="600" d:DesignWidth="900"
       Title="DistrictDetails" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}">
 
     <Grid x:Name="mainGrid" Margin="10,10,0,0">
@@ -27,7 +27,7 @@
                 <RowDefinition Height="45" />
                 <RowDefinition Height="45" />
             </Grid.RowDefinitions>
-                    <TextBlock FontSize="14" FontWeight="Bold" Grid.Row="0" Grid.Column="0" Foreground="Green"  
+            <TextBlock FontSize="14" FontWeight="Bold" Grid.Row="0" Grid.Column="0" Foreground="Green"  
          Text="Store Id" Height="20" VerticalAlignment="Top" />
             <TextBlock FontSize="14" FontWeight="Bold" Grid.Row="0" Grid.Column="1" Foreground="Green"  
          Text="DistrictId" Height="20" VerticalAlignment="Top" />
@@ -56,6 +56,11 @@
         </Grid>
         <Button x:Name="backBtn" Content="Back" HorizontalAlignment="Left" Margin="10,1,0,0" Grid.Row="2" VerticalAlignment="Top" Click="backBtn_Click"/>
         <Label x:Name="salesPerson_lbl" Content="Label" Margin="534,29,151,358" Grid.Row="3"/>
+        <Border BorderThickness="2" BorderBrush="Black" Margin="0,60,0,23" Grid.Row="3" HorizontalAlignment="Center" Width="4">
+            <UIElement.RenderTransform>
+                <MatrixTransform/>
+            </UIElement.RenderTransform>
+        </Border>
 
     </Grid>
 </Page>
