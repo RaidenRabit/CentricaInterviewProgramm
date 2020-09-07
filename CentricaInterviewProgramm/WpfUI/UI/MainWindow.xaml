@@ -6,9 +6,8 @@
         xmlns:local="clr-namespace:WpfUI"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        <TextBlock x:Name="districtCount_lbl" HorizontalAlignment="Left" Margin="154,60,0,0" Text="District Count: " TextWrapping="Wrap" VerticalAlignment="Top"/>
-        <Button x:Name="GetAllDistricts_btn" Content="Get All Districts" HorizontalAlignment="Left" Margin="154,117,0,0" VerticalAlignment="Top" Click="Button_Click"/>
-
+    <Grid x:Name="gridMain" Margin="31,98,0,0">
+        <TextBlock x:Name="districtCount_lbl" HorizontalAlignment="Left" Margin="-12,-88,0,0" Text="District Count: " TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <Button x:Name="GetAllDistricts_btn" Content="Get All Districts" Margin="-12,-67,705,0" VerticalAlignment="Top" Click="Button_Click" RenderTransformOrigin="-0.588,-0.409"/>
     </Grid>
 </Window>
