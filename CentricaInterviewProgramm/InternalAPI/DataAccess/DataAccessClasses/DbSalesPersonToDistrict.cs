@@ -52,7 +52,7 @@ namespace InternalAPI.DataAccess.DataAccessClasses
                 _con.GetTransaction().Commit();
                 return true;
             }
-            catch(SqlException ex)
+            catch(SqlException)
             {
                 _con.GetTransaction().Rollback();
                 return false;

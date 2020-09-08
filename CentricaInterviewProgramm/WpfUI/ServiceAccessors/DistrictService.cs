@@ -1,6 +1,7 @@
 ﻿using InternalAPI.Models;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,30 +17,23 @@ namespace WpfUI.Controllers
             _httpClient = ServiceClient.GetInstance();
         }
 
-        public async Task<int> GetDistrictCount()
+        public async Task<ApiServiceResponse<int>> GetDistrictCount()
         {
-            var response = await _httpClient.GetClient().GetAsync("district/getdistrictcount");
-            if (response.IsSuccessStatusCode)
-            {
-                int districtTotalCount = JsonConvert.DeserializeObject<int>(await response.Content.ReadAsStringAsync());
-                return districtTotalCount;
-            }
-            return 0;
+            var codedResponse = await _httpClient.GetClient().GetAsync("district/getdistrictcount");
+            var jsonString = await codedResponse.Content.ReadAsStringAsync();
+            var decodedResponse = JsonConvert.DeserializeObject<ApiServiceResponse<int>>(jsonString);
+            return decodedResponse;
         }
 
-        public async Task<List<District>> GetAllDistricts()
+        public async Task<ApiServiceResponse<List<District>>> GetAllDistricts()
         {
             var response = await _httpClient.GetClient().GetAsync("/district/GetAllDistricts");
-            if (response.IsSuccessStatusCode)
-            {
-                var jsonString = await response.Content.ReadAsStringAsync();
-                var districts = JsonConvert.DeserializeObject<List<District>>(jsonString);
-                return districts;
-            }
-            return null;
+            var jsonString = await response.Content.ReadAsStringAsync();
+            var districts = JsonConvert.DeserializeObject<ApiServiceResponse<List<District>>>(jsonString);
+            return districts;
         }
 
-        public async Task<bool> CreateSalesPersonToDistrict(int districtId, int salesPersonId, int relationTypeId)
+        public async Task<ApiServiceResponse<string>> CreateSalesPersonToDistrict(int districtId, int salesPersonId, int relationTypeId)
         {
 
             var asptd = new AddSalesPersonToDistrictModel
@@ -52,17 +46,13 @@ namespace WpfUI.Controllers
             var content = new StringContent(json, UnicodeEncoding.UTF8, "application/json");
 
             var response = await _httpClient.GetClient().PostAsync("/district/AddSalesPersonToDistrict", content);
-            if (response.IsSuccessStatusCode)
-            {
-                var jsonString = await response.Content.ReadAsStringAsync();
-                var actualResult = JsonConvert.DeserializeObject<bool>(jsonString);
+            var jsonString = await response.Content.ReadAsStringAsync();
+            var actualResult = JsonConvert.DeserializeObject<ApiServiceResponse<string>>(jsonString);
 
-                return actualResult;
-            }
-            return false;
+            return actualResult;
         }
 
-        public async Task<bool> RemoveSalesPersonsFromDistrict(List<int> salesPersonIds, int districtId)
+        public async Task<ApiServiceResponse<string>> RemoveSalesPersonsFromDistrict(List<int> salesPersonIds, int districtId)
         {
             var removeSalesPersonToDistrict = new RemoveSalesPersonToDistrict
             {
@@ -74,14 +64,10 @@ namespace WpfUI.Controllers
             var content = new StringContent(json, UnicodeEncoding.UTF8, "application/json");
 
             var response = await _httpClient.GetClient().PostAsync("/district/RemoveSalesPersonsFromDistrict", content);
-            if (response.IsSuccessStatusCode)
-            {
-                var jsonString = await response.Content.ReadAsStringAsync();
-                var actualResult = JsonConvert.DeserializeObject<bool>(jsonString);
+            var jsonString = await response.Content.ReadAsStringAsync();
+            var actualResult = JsonConvert.DeserializeObject<ApiServiceResponse<string>>(jsonString);
 
-                return actualResult;
-            }
-            return false;
+            return actualResult;
         }
     }
 }
