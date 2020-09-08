@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -30,13 +31,13 @@ namespace WpfUI.UI
                 _originalDistrictCountText = districtCount_lbl.Text;
             }
             var districtTotalCount = await _districtService.GetDistrictCount();
-            districtCount_lbl.Text = _originalDistrictCountText + districtTotalCount.ToString();
+            districtCount_lbl.Text = _originalDistrictCountText + districtTotalCount.Content.ToString();
 
-            var districts = await _districtService.GetAllDistricts();
-            if (districts != null)
+            var response = await _districtService.GetAllDistricts();
+            if (response.HttpResponse == HttpStatusCode.OK)
             {
-                _districts = districts;
-                CreateDistrictButtons(districts);
+                _districts = response.Content;
+                CreateDistrictButtons(response.Content);
             }
         }
 

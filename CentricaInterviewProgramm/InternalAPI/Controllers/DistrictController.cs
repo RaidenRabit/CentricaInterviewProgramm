@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using System.Net;
 using InternalAPI.DataManagement.IDataManagement;
 using InternalAPI.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -22,62 +22,80 @@ namespace InternalAPI.Controllers
 
         [HttpGet]
         [Route("GetDistrictCount")]
-        public int GetDistrictCount()
+        public ApiServiceResponse<int> GetDistrictCount()
         {
-            return _dmDistrict.GetDistrictsCount();
+            var response = _dmDistrict.GetDistrictsCount();
+            if (response == 0)
+            {
+                return new ApiServiceResponse<int>(HttpStatusCode.NotFound, response);
+            }
+            return new ApiServiceResponse<int>(HttpStatusCode.OK, response);
         }
 
         [HttpGet]
         [Route("GetAllDistricts")]
-        public List<District> GetAllDistricts()
+        public ApiServiceResponse<List<District>> GetAllDistricts()
         {
             var result = _dmDistrict.GetAllDistricts();
-            return result;
+            return new ApiServiceResponse<List<District>>(HttpStatusCode.OK, result);
         }
 
         [HttpPost]
         [Route("AddSalesPersonToDistrict")]
-        public bool AddSalesPersonToDistrict([FromBody] AddSalesPersonToDistrictModel asptd)
+        public ApiServiceResponse<string> AddSalesPersonToDistrict([FromBody] AddSalesPersonToDistrictModel asptd)
         {
+            string message = "";
             if (asptd.DistrictId == 0)
             {
-                return false;
+                message = "DistrictId cannot be 0";
+                return new ApiServiceResponse<string>(HttpStatusCode.BadRequest, message);
             }    
 
             if (asptd.SalesPersonId == 0)
             {
-                return false;
+                message = "SalesPersonId cannot be 0";
+                return new ApiServiceResponse<string>(HttpStatusCode.BadRequest, message);
             }
 
-            if (asptd.DistrictId == 0)
+            message = _dmSalesPersonToDistrict.CreateSalesPersonToDistrict(asptd);
+
+            if (string.IsNullOrWhiteSpace(message))
             {
-                return false;
+                return new ApiServiceResponse<string>(HttpStatusCode.OK);
             }
-
-            return _dmSalesPersonToDistrict.CreateSalesPersonToDistrict(asptd);
+            return new ApiServiceResponse<string>(HttpStatusCode.BadRequest, message);
         }
 
         [HttpPost]
         [Route("RemoveSalesPersonsFromDistrict")]
-        public bool DeleteSalesPersonsToDistrict([FromBody] RemoveSalesPersonToDistrict rsptd)
+        public ApiServiceResponse<string> DeleteSalesPersonsToDistrict([FromBody] RemoveSalesPersonToDistrict rsptd)
         {
-
+            var message = "";
             if (rsptd.DistrictId == 0)
             {
-                return false;
+                message = "DistrictId cannot be 0";
+                return new ApiServiceResponse<string>(HttpStatusCode.BadRequest, message);
             }
 
             if (!rsptd.SalesPersonIds.Any())
             {
-                return false;
+                message = "SalesPersonId list cannot be empty";
+                return new ApiServiceResponse<string>(HttpStatusCode.BadRequest, message);
             }
 
             if (rsptd.SalesPersonIds.Contains(0))
             {
-                return false;
+                message = "SalesPersonIds list cannot contain 0s";
+                return new ApiServiceResponse<string>(HttpStatusCode.BadRequest, message);
             }
 
-            return _dmSalesPersonToDistrict.DeleteSalesPersonsToDistrict(rsptd);
+            message = _dmSalesPersonToDistrict.DeleteSalesPersonsToDistrict(rsptd);
+
+            if (string.IsNullOrWhiteSpace(message))
+            {
+                return new ApiServiceResponse<string>(HttpStatusCode.OK);
+            }
+            return new ApiServiceResponse<string>(HttpStatusCode.BadRequest, message);
         }
 
     }

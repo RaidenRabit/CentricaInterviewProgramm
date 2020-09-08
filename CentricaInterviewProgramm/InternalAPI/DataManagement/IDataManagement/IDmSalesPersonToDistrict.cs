@@ -4,7 +4,7 @@ namespace InternalAPI.DataManagement.IDataManagement
 {
     public interface IDmSalesPersonToDistrict
     {
-        bool CreateSalesPersonToDistrict(AddSalesPersonToDistrictModel asptd);
-        bool DeleteSalesPersonsToDistrict(RemoveSalesPersonToDistrict rsptd);
+        string CreateSalesPersonToDistrict(AddSalesPersonToDistrictModel asptd);
+        string DeleteSalesPersonsToDistrict(RemoveSalesPersonToDistrict rsptd);
     }
 }

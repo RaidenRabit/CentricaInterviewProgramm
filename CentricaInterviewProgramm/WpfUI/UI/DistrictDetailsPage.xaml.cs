@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -145,11 +146,11 @@ namespace WpfUI.UI
                 return;
             }
             var response = await _districtService.CreateSalesPersonToDistrict(_district.DistrictId, salesPersonId, relationTypeId);
-            if (response)
+            if (response.HttpResponse == HttpStatusCode.OK)
             {
                 addSalesPersonToDistrict_grid.Visibility = Visibility.Hidden;
             }
-            addSalesPersonError_lbl.Content = "Something went wrong";
+            addSalesPersonError_lbl.Content = response.Message;
         }
 
         private async void removeSalesPerson_btn_Click(object sender, RoutedEventArgs e)
@@ -163,7 +164,7 @@ namespace WpfUI.UI
                 salesPersonIdList.Add(salesPersonId);
             }
             var response = await _districtService.RemoveSalesPersonsFromDistrict(salesPersonIdList, _district.DistrictId);
-            if (response)
+            if (response.HttpResponse == HttpStatusCode.OK)
             {
                 removeSalesPerson_lbl.Foreground = Brushes.Green;
                 removeSalesPerson_lbl.Content = "Deleted";
@@ -171,7 +172,7 @@ namespace WpfUI.UI
             else
             {
                 removeSalesPerson_lbl.Foreground = Brushes.Red;
-                removeSalesPerson_lbl.Content = "Something went wrong";
+                removeSalesPerson_lbl.Content = response.Message;
             }
         }
     }
