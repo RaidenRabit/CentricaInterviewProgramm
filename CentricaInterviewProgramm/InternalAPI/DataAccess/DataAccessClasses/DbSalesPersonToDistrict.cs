@@ -36,7 +36,7 @@ namespace InternalAPI.DataAccess.DataAccessClasses
 
         public bool DeleteSalesPersonsToDistrict(RemoveSalesPersonToDistrict rsptd)
         {
-            string stmt = @"DELETE FROM SalesPersonsToDistrict WHERE SalesPersonIdSPTDFK = 3 AND DistrictIdSPTDFK = 1";
+            string stmt = @"DELETE FROM SalesPersonsToDistrict WHERE SalesPersonIdSPTDFK = @0 AND DistrictIdSPTDFK = @1";
             try
             {
                 _con.BeginTransaction();
