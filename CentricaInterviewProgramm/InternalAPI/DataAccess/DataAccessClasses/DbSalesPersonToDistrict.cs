@@ -14,7 +14,7 @@ namespace InternalAPI.DataAccess.DataAccessClasses
 
         public int CreateSalesPersonToDistrict(AddSalesPersonToDistrictModel asptd)
         {
-            string stmt = @"INSERT INTO SalesPersonsToDistrict (DistrictId, SalesPersonId, RelationTypeId)
+            string stmt = @"INSERT INTO SalesPersonsToDistrict (DistrictIdSPTDFK, SalesPersonIdSPTDFK, RelationTypeIdSPTDFK)
                             OUTPUT INSERTED.SalesPersonToDistrictId VALUES (@0, @1, @2)";
 
             using (var cmd = new SqlCommand(stmt, _con.GetConnection()))

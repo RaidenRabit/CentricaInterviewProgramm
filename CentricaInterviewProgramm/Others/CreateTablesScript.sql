@@ -27,19 +27,19 @@ RelationTypeName varchar(20)
 
 CREATE TABLE SalesPersonsToDistrict(
 SalesPersonToDistrictId int IDENTITY(1,1) PRIMARY KEY,
-SalesPersonId int REFERENCES SalesPersons (SalesPersonId),
-DistrictId int FOREIGN KEY REFERENCES District (DistrictId),
-RelationTypeId int FOREIGN KEY REFERENCES RelationType (RelationTypeId)
+SalesPersonIdSPTDFK int REFERENCES SalesPersons (SalesPersonId),
+DistrictIdSPTDFK int FOREIGN KEY REFERENCES District (DistrictId),
+RelationTypeIdSPTDFK int FOREIGN KEY REFERENCES RelationType (RelationTypeId)
 );
 
 CREATE TABLE Store(
 StoreId int IDENTITY(1,1) PRIMARY KEY,
-DistrictId int FOREIGN KEY REFERENCES District (DistrictId),
+DistrictIdSFK int FOREIGN KEY REFERENCES District (DistrictId),
 StoreName varchar(20)
 );
 
 CREATE TABLE SalesPersonToStore(
 SalesPersonToStoreId int IDENTITY(1,1) PRIMARY KEY,
-SalesPersonId int FOREIGN KEY REFERENCES SalesPersons (SalesPersonId),
-StoreId int FOREIGN KEY REFERENCES Store (StoreId)
+SalesPersonIdSPTSFK int FOREIGN KEY REFERENCES SalesPersons (SalesPersonId),
+StoreIdSPTSFK int FOREIGN KEY REFERENCES Store (StoreId)
 );
