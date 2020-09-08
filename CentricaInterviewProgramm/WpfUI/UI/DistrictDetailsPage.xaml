@@ -61,6 +61,26 @@
                 <MatrixTransform/>
             </UIElement.RenderTransform>
         </Border>
+        <Button x:Name="addSalesPersonToDistrict_btn" Content="Add SalesPerson To District" HorizontalAlignment="Left" Margin="686,6,0,0" Grid.Row="2" VerticalAlignment="Top" RenderTransformOrigin="0.545,0.671" Width="163" Click="addSalesPersonToDistrict_btn_Click"/>
+        <Grid Panel.ZIndex="4" Background="White" Visibility="Visible" x:Name="addSalesPersonToDistrict_grid" Margin="72,118,88,190" Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="45" />
+                <RowDefinition Height="45" />
+            </Grid.RowDefinitions>
 
+            <Border Margin="0,0,10,-152" BorderBrush="Red" BorderThickness="1" Grid.RowSpan="2" Grid.ColumnSpan="2">
+                <Border.Effect>
+                    <DropShadowEffect Color="Gray"/>
+                </Border.Effect>
+            </Border>
+            <Button x:Name="saveAddition_btn" Content="Save" HorizontalAlignment="Left" Margin="31,0,0,0" VerticalAlignment="Center" Click="FinalizeAdd_btn_Click" Grid.Column="1"/>
+            <TextBox x:Name="salesPersonId_txtblk" Text="SalesPersonId"/>
+            <TextBox x:Name="relationTypeId_txtblk" Text="RelationTypeId" Margin="0,21,0,-21" Grid.Row="1"/>
+            <Label x:Name="error_lbl" Foreground="Red" Content="" Grid.Column="1" HorizontalAlignment="Left" Margin="21,38,0,0" VerticalAlignment="Top" Width="231" Height="30" VerticalContentAlignment="Top" Grid.RowSpan="2"/>
+        </Grid>
     </Grid>
 </Page>

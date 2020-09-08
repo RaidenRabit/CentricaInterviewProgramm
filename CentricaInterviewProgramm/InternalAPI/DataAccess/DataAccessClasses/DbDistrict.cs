@@ -35,11 +35,11 @@ namespace InternalAPI.DataAccess.DataAccessClasses
         public List<District> GetAllDistricts()
         {
             string stmt = @"SELECT * FROM District d 
-                            FULL JOIN Store s ON d.DistrictId = s.DistrictId 
-                            FULL JOIN SalesPersonsToDistrict sptd ON sptd.DistrictId = d.DistrictId
-                            FULL JOIN RelationType rt ON rt.RelationTypeId = sptd.RelationTypeId
-                            FULL JOIN SalesPersons sp ON sp.SalesPersonId = sptd.SalesPersonId
-                            FULL JOIN SalesPersonToStore spts on spts.SalesPersonId = sp.SalesPersonId
+                            FULL JOIN Store s ON d.DistrictId = s.DistrictIdSFK
+                            FULL JOIN SalesPersonsToDistrict sptd ON sptd.DistrictIdSPTDFK = d.DistrictId
+                            FULL JOIN RelationType rt ON rt.RelationTypeId = sptd.RelationTypeIdSPTDFK
+                            FULL JOIN SalesPersons sp ON sp.SalesPersonId = sptd.SalesPersonIdSPTDFK
+                            FULL JOIN SalesPersonToStore spts on spts.SalesPersonIdSPTSFK = sp.SalesPersonId
                             WHERE d.DistrictId IS NOT NULL";
             using (var cmd = new SqlCommand(stmt, _con.GetConnection()))
             {
@@ -53,11 +53,11 @@ namespace InternalAPI.DataAccess.DataAccessClasses
         public District GetDistrictDetails(int districtId)
         {
             string stmt = @"SELECT * FROM District d 
-                            FULL JOIN Store s ON d.DistrictId = s.DistrictId 
-                            FULL JOIN SalesPersonsToDistrict sptd ON sptd.DistrictId = d.DistrictId
-                            FULL JOIN RelationType rt ON rt.RelationTypeId = sptd.RelationTypeId
-                            FULL JOIN SalesPersons sp ON sp.SalesPersonId = sptd.SalesPersonId
-                            FULL JOIN SalesPersonToStore spts on spts.SalesPersonId = sp.SalesPersonId
+                            FULL JOIN Store s ON d.DistrictId = s.DistrictIdSFK
+                            FULL JOIN SalesPersonsToDistrict sptd ON sptd.DistrictIdSPTDFK = d.DistrictId
+                            FULL JOIN RelationType rt ON rt.RelationTypeId = sptd.RelationTypeIdSPTDFK
+                            FULL JOIN SalesPersons sp ON sp.SalesPersonId = sptd.SalesPersonIdSPTDFK
+                            FULL JOIN SalesPersonToStore spts on spts.SalesPersonIdSPTSFK = sp.SalesPersonId
                             WHERE d.DistrictId = @0";
             using (var cmd = new SqlCommand(stmt, _con.GetConnection()))
             {
@@ -102,7 +102,7 @@ namespace InternalAPI.DataAccess.DataAccessClasses
                     var store = new Store
                     {
                         StoreId = Int32.Parse(reader["StoreId"].ToString()),
-                        DistrictId = Int32.Parse(reader["DistrictId"].ToString()),
+                        DistrictId = Int32.Parse(reader["DistrictIdSFK"].ToString()),
                         StoreName = reader["StoreName"].ToString()
                     };
                     stores[store.StoreId] = store;
@@ -125,8 +125,8 @@ namespace InternalAPI.DataAccess.DataAccessClasses
                     var sptdwr = new SalesPersonToDistrictWithRelation
                     {
                         SalesPersonToDistrictId = Int32.Parse(reader["SalesPersonToDistrictId"].ToString()),
-                        DistrictId = Int32.Parse(reader["DistrictId"].ToString()),
-                        SalesPersonId = Int32.Parse(reader["SalesPersonId"].ToString()),
+                        DistrictId = Int32.Parse(reader["DistrictIdSPTDFK"].ToString()),
+                        SalesPersonId = Int32.Parse(reader["SalesPersonIdSPTDFK"].ToString()),
                         RelationName = reader["RelationTypeName"].ToString()
                     };
                     sptdwrs[sptdwr.SalesPersonToDistrictId] = sptdwr;
@@ -137,8 +137,8 @@ namespace InternalAPI.DataAccess.DataAccessClasses
                     var spts = new SalesPersonToStore
                     {
                         SalesPersonToStoreId = Int32.Parse(reader["SalesPersonToStoreId"].ToString()),
-                        SalesPersonId = Int32.Parse(reader["SalesPersonId"].ToString()),
-                        StoreId = Int32.Parse(reader["StoreId"].ToString())
+                        SalesPersonId = Int32.Parse(reader["SalesPersonIdSPTSFK"].ToString()),
+                        StoreId = Int32.Parse(reader["StoreIdSPTSFK"].ToString())
                     };
                     sptss[spts.SalesPersonToStoreId] = spts;
                 }

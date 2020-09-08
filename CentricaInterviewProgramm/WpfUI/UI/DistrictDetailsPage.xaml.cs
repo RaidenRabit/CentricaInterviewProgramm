@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
+using WpfUI.Controllers;
 
 namespace WpfUI.UI
 {
@@ -12,9 +14,11 @@ namespace WpfUI.UI
     public partial class DistrictDetailsPage : Page
     {
         private District _district;
+        private DistrictService _districtService;
         public DistrictDetailsPage()
         {
             InitializeComponent();
+            _districtService = new DistrictService();
         }
 
         public void SetDistrict(District district)
@@ -82,6 +86,40 @@ namespace WpfUI.UI
             var window = (MainWindow)Application.Current.MainWindow;
             var viewAllDistrictsPage = new ViewAllDistrictsPage();
             window.Content = viewAllDistrictsPage;
+        }
+
+        private void addSalesPersonToDistrict_btn_Click(object sender, RoutedEventArgs e)
+        {
+            if (addSalesPersonToDistrict_grid.Visibility == Visibility.Visible)
+            {
+                addSalesPersonToDistrict_grid.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                addSalesPersonToDistrict_grid.Visibility = Visibility.Visible;
+            }
+        }
+
+        private async void FinalizeAdd_btn_Click(object sender, RoutedEventArgs e)
+        {
+
+            error_lbl.Content = "";
+            if (!Int32.TryParse(salesPersonId_txtblk.Text, out int salesPersonId))
+            {
+                error_lbl.Content = "Only Integer SalesPersonId's Please";
+                return;
+            }
+            if (!Int32.TryParse(relationTypeId_txtblk.Text, out int relationTypeId))
+            {
+                error_lbl.Content = "Only integer RelationTypeId's, please";
+                return;
+            }
+            var response = await _districtService.CreateSalesPersonToDistrict(_district.DistrictId, salesPersonId, relationTypeId);
+            if (response)
+            {
+                addSalesPersonToDistrict_grid.Visibility = Visibility.Hidden;
+            }
+            error_lbl.Content = "Something went wrong";
         }
     }
 }

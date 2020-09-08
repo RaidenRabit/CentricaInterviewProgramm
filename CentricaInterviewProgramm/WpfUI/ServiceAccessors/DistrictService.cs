@@ -1,6 +1,8 @@
 ﻿using InternalAPI.Models;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace WpfUI.Controllers
@@ -35,6 +37,29 @@ namespace WpfUI.Controllers
                 return districts;
             }
             return null;
+        }
+
+        public async Task<bool> CreateSalesPersonToDistrict(int districtId, int salesPersonId, int relationTypeId)
+        {
+
+            var asptd = new AddSalesPersonToDistrictModel
+            {
+                DistrictId = districtId,
+                SalesPersonId = salesPersonId,
+                RelationTypeId = relationTypeId
+            };
+            string json = JsonConvert.SerializeObject(asptd);
+            var content = new StringContent(json, UnicodeEncoding.UTF8, "application/json");
+
+            var response = await _httpClient.GetClient().PostAsync("/district/AddSalesPersonToDistrict", content);
+            if (response.IsSuccessStatusCode)
+            {
+                var jsonString = await response.Content.ReadAsStringAsync();
+                var actualResult = JsonConvert.DeserializeObject<bool>(jsonString);
+
+                return actualResult;
+            }
+            return false;
         }
     }
 }
