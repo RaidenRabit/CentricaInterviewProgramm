@@ -11,4 +11,6 @@ Assumptions:
 - the user is the absolute CEO of sales over the whole application, total control and represents 100% of the companie's desires.
 - a store can have multiple salespersons
 - the relationship type between district and salesperson cannot be determined based on the number of stores the are active in
-- 
+- salesPersons can be removed regardles of their relationType to the district
+- when deleting multiple salesPersons at once, failing to delete one will revert all the previous deletions
+- when deleteing mutiple salesPersons at once, if one sp is not related to the district, a message would point out the outliers but the rest will be deleted

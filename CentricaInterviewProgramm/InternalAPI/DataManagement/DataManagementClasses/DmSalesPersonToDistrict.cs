@@ -1,6 +1,7 @@
 ﻿using InternalAPI.DataAccess.IDataAccess;
 using InternalAPI.DataManagement.IDataManagement;
 using InternalAPI.Models;
+using System.Collections.Generic;
 
 namespace InternalAPI.DataManagement.DataManagementClasses
 {
@@ -59,6 +60,31 @@ namespace InternalAPI.DataManagement.DataManagementClasses
             if (_dbSalesPersonToDistrict.CreateSalesPersonToDistrict(asptd) != 0)
             { 
                 return true; 
+            }
+            return false;
+        }
+
+        public bool DeleteSalesPersonsToDistrict(RemoveSalesPersonToDistrict rsptd)
+        {
+            var district = _dbDistrict.GetDistrictDetails(rsptd.DistrictId);
+            if (district == null)
+            {
+                return false;
+            }
+
+            foreach (var salesPersonId in rsptd.SalesPersonIds)
+            {
+                var salesPerson = _dbSalesPerson.GetSalesPersonById(salesPersonId);
+                if (salesPerson == null)
+                {
+                    return false;
+                }
+            }
+
+            var response = _dbSalesPersonToDistrict.DeleteSalesPersonsToDistrict(rsptd);
+            if (response)
+            {
+                return true;
             }
             return false;
         }

@@ -57,5 +57,28 @@ namespace InternalAPI.Controllers
             return _dmSalesPersonToDistrict.CreateSalesPersonToDistrict(asptd);
         }
 
+        [HttpPost]
+        [Route("RemoveSalesPersonsFromDistrict")]
+        public bool DeleteSalesPersonsToDistrict([FromBody] RemoveSalesPersonToDistrict rsptd)
+        {
+
+            if (rsptd.DistrictId == 0)
+            {
+                return false;
+            }
+
+            if (!rsptd.SalesPersonIds.Any())
+            {
+                return false;
+            }
+
+            if (rsptd.SalesPersonIds.Contains(0))
+            {
+                return false;
+            }
+
+            return _dmSalesPersonToDistrict.DeleteSalesPersonsToDistrict(rsptd);
+        }
+
     }
 }

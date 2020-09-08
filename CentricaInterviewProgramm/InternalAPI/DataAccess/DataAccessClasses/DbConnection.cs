@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
 
@@ -8,6 +9,7 @@ namespace InternalAPI.DataAccess.DataAccessClasses
     {
         private static DbConnection _instance;
         private SqlConnection _con = null;
+        private SqlTransaction _transaction = null;
         string _connectionString = @"Data Source=localhost;Initial Catalog=CentricaProgram;User ID=sa; password=Password12!";
 
         public static DbConnection GetInstance()
@@ -25,7 +27,6 @@ namespace InternalAPI.DataAccess.DataAccessClasses
             _con.Open();
         }
 
-        #region Connection
         public SqlConnection GetConnection()
         {
             return _con;
@@ -44,6 +45,16 @@ namespace InternalAPI.DataAccess.DataAccessClasses
                 return false;
             }
         }
-        #endregion
+
+        public SqlTransaction BeginTransaction()
+        {
+            _transaction = _con.BeginTransaction(IsolationLevel.RepeatableRead);
+            return _transaction;
+        }
+
+        public SqlTransaction GetTransaction()
+        {
+            return _transaction;
+        }
     }
 }
