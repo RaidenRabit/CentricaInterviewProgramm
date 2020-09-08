@@ -61,5 +61,27 @@ namespace WpfUI.Controllers
             }
             return false;
         }
+
+        public async Task<bool> RemoveSalesPersonsFromDistrict(List<int> salesPersonIds, int districtId)
+        {
+            var removeSalesPersonToDistrict = new RemoveSalesPersonToDistrict
+            {
+                DistrictId = districtId,
+                SalesPersonIds = salesPersonIds
+            };
+
+            string json = JsonConvert.SerializeObject(removeSalesPersonToDistrict);
+            var content = new StringContent(json, UnicodeEncoding.UTF8, "application/json");
+
+            var response = await _httpClient.GetClient().PostAsync("/district/RemoveSalesPersonsFromDistrict", content);
+            if (response.IsSuccessStatusCode)
+            {
+                var jsonString = await response.Content.ReadAsStringAsync();
+                var actualResult = JsonConvert.DeserializeObject<bool>(jsonString);
+
+                return actualResult;
+            }
+            return false;
+        }
     }
 }

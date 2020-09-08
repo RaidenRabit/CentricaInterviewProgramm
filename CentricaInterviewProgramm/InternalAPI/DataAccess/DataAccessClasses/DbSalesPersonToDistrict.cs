@@ -33,5 +33,30 @@ namespace InternalAPI.DataAccess.DataAccessClasses
                 }
             }
         }
+
+        public bool DeleteSalesPersonsToDistrict(RemoveSalesPersonToDistrict rsptd)
+        {
+            string stmt = @"DELETE FROM SalesPersonsToDistrict WHERE SalesPersonIdSPTDFK = 3 AND DistrictIdSPTDFK = 1";
+            try
+            {
+                _con.BeginTransaction();
+                foreach (var salesPersonId in rsptd.SalesPersonIds)
+                {
+                    using (var cmd = new SqlCommand(stmt, _con.GetConnection(), _con.GetTransaction()))
+                    {
+                        cmd.Parameters.AddWithValue("@0", salesPersonId);
+                        cmd.Parameters.AddWithValue("@1", rsptd.DistrictId);
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                _con.GetTransaction().Commit();
+                return true;
+            }
+            catch(SqlException ex)
+            {
+                _con.GetTransaction().Rollback();
+                return false;
+            }
+        }
     }
 }
