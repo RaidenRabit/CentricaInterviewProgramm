@@ -57,7 +57,6 @@ namespace InternalAPI.DataAccess.DataAccessClasses
                             FULL JOIN SalesPersonsToDistrict sptd ON sptd.DistrictIdSPTDFK = d.DistrictId
                             FULL JOIN RelationType rt ON rt.RelationTypeId = sptd.RelationTypeIdSPTDFK
                             FULL JOIN SalesPersons sp ON sp.SalesPersonId = sptd.SalesPersonIdSPTDFK
-                            FULL JOIN SalesPersonToStore spts on spts.SalesPersonIdSPTSFK = sp.SalesPersonId
                             WHERE d.DistrictId = @0";
             using (var cmd = new SqlCommand(stmt, _con.GetConnection()))
             {
@@ -81,7 +80,6 @@ namespace InternalAPI.DataAccess.DataAccessClasses
             var salesPersons = new Dictionary<int, SalesPerson>();
             var stores = new Dictionary<int, Store>();
             var sptdwrs = new Dictionary<int, SalesPersonToDistrictWithRelation>();
-            var sptss = new Dictionary<int, SalesPersonToStore>();
 
             while (reader.Read())
             {
@@ -131,22 +129,6 @@ namespace InternalAPI.DataAccess.DataAccessClasses
                     };
                     sptdwrs[sptdwr.SalesPersonToDistrictId] = sptdwr;
                 }
-                colIndex = reader.GetOrdinal("SalesPersonToStoreId");
-                if (!reader.IsDBNull(colIndex))
-                {
-                    var spts = new SalesPersonToStore
-                    {
-                        SalesPersonToStoreId = Int32.Parse(reader["SalesPersonToStoreId"].ToString()),
-                        SalesPersonId = Int32.Parse(reader["SalesPersonIdSPTSFK"].ToString()),
-                        StoreId = Int32.Parse(reader["StoreIdSPTSFK"].ToString())
-                    };
-                    sptss[spts.SalesPersonToStoreId] = spts;
-                }
-            }
-
-            foreach (var spts in sptss)
-            {
-                salesPersons[spts.Value.SalesPersonId].Stores.Add(stores[spts.Value.StoreId]);
             }
 
             foreach (var sptdwr in sptdwrs)
