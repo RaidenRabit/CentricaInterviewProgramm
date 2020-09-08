@@ -39,6 +39,7 @@ namespace WpfUI.UI
             store_lbl.Content = $"Stores Count: {_district.Stores.Count}";
 
             PopulateGrids(_district.Stores, store_grid);
+            _district.Spwr.ForEach(sp => sp.SalesPerson.Stores = null);
             PopulateGrids(_district.Spwr, salesPerson_grid);
         }
 
@@ -59,7 +60,11 @@ namespace WpfUI.UI
                     {
                         foreach (var objValueProperty in objValue.GetType().GetProperties())
                         {
-                            content += objValueProperty.GetValue(objValue, null).ToString() + "\n";
+                            var objValuePropertyValue = objValueProperty.GetValue(objValue, null);
+                            if (!CheckForDefaultOrEmpty(objValuePropertyValue))
+                            {
+                                content += objValuePropertyValue.ToString() + "\n";
+                            }
                         }
                     }
                     else
@@ -77,6 +82,15 @@ namespace WpfUI.UI
                 grid.RowDefinitions.Add(new RowDefinition());
                 row++;
             }
+        }
+
+        private bool CheckForDefaultOrEmpty<T>(T myObject)
+        {
+            if (EqualityComparer<T>.Default.Equals(myObject, default(T)))
+            {
+                return true;
+            }
+            return false;
         }
 
 
